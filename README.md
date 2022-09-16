@@ -1,5 +1,4 @@
-# visualization-final
-Water Reserves - Visualization Final Project SoSe2022 - Carlos Andres Poveda
+# Water Reserves Europe - Visualization Final Project SoSe2022 - Carlos Andres Poveda - 123802
 
 This project is the final presentation of the subject Visualization SoSe2022 Bauhaus-Universität Weimar
 
