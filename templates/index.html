@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Carlos Poveda - Visualization Final</title>
+    <meta charset="utf-8">
+
+
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js">script></script>
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.0-beta.30/vega.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.0-beta.2/vega-lite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.14/vega-embed.js"></script>-->
+
+    <script src="https://cdn.jsdelivr.net/npm/vega"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed"></script>
+    <script src="https://vega.github.io/datalib/datalib.min.js"></script>
+
+    <!-- Vega Tooltip
+    <script src="https://vega.github.io/vega-tooltip/vega-tooltip.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://vega.github.io/vega-tooltip/vega-tooltip.css">-->
+    <!-- Import Vega 3 & Vega-Lite 2 (does not have to be from CDN) -->
+   <link rel="stlesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/vega-tooltip/vega-tooltip.scss">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vega-tooltip/build/vega-tooltip.min.js"></script>
+
+    <style>hr, h3 {padding-bottom: 20px;}canvas {background-color: #fffff;}</style>
+    <style>
+    div.waterfall {
+        width: 1200px;
+        height: 300px;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="header">
+        <h1 class="text-muted">Carlos Poveda 123802 - Visualization Final SoSe2022</h1>
+	<h2>Does climate change affect water reserves?</h2>
+        <ul class="nav nav-pills pull-right">
+          <li class="active">
+          <li><a href="https://altair-viz.github.io/index.html">Altair</a></li>
+          <li><a href="https://vega.github.io/vega-lite/">Vega-Lite</a></li>
+          <li><a href="http://d3js.org/">D3</a></li>
+          <li><a href="http://flask.pocoo.org/">Flask</a></li>
+        </ul>
+      </div><hr><hr>
+
+      <div class="charts text-center">
+	<div class="row text-justify" id="text1"><h3>I decided to establish if with the available data one could think that due to the increase of temperatures the water reserves in Europe are disappearing. The first thing I did was to look at the data of water reserves per year thinking that if there is a direct effect of heat waves on water reserves these graphs should change with respect to time, I took the sample from 1992 to 2018 which is the one that <a href="https://www.statista.com/">www.statista.com</a> supplied me. This graph does not show significant changes in water reserves reading more about the subject water has a cycle that can explain that sometimes there is not too much water and sometimes it rains.</h3></div>
+        <div class="row"><div id="waterfall"></div></div><hr>
+	<div class="row text-justify" id="text2" ><h3>I then decided to see if there are significant changes in the average temperature over the last few years, I discovered that although temperatures have increased, this actually breaks the water cycle which means that the dry and rainy seasons are not only longer but more intense.</h3></div>
+        <div class="row"><div id="line"></div></div><hr>
+	<div class="row text-justify" id="text3" ><h3>One of the things I noticed reviewing the data is that in general the population of Europe lives in cities (graph 3 below) the difference between people living in cities with people living in the countryside of 10 people is almost 8 against 2, from here you can say historically cities have had better water management and that can help their conservation. also if the graph of population growth is very low which does not directly affect water sources.</h3></div>
+        <div class="row"><div id="multiline"></div></div><hr>
+	<div class="row text-justify" id="text4" ><h3>Finally, I reviewed the precipitation values of the last years, and although I saw that in a period of time (graph 4 below) the precipitation in Europe if we look at it by country we see that since some time these have returned to normal levels, which may lead me to think that the water cycle may have ups and downs.</h3></div>
+        <div class="row"><div id="stocks"></div></div><hr>
+       
+        <!-- Placeholder for the tooltip -->
+        <div id="vis-tooltip" class="vg-tooltip"></div>
+      </div>
+    </div>
+
+    <!-- Render Charts -->
+    <script type="text/javascript">
+      function parse(url, div) {
+        var opt = {
+          mode: "vega-lite",
+          renderer: "svg",
+          actions: {export: true, source: false, editor: false}
+        };
+
+        vegaEmbed("#"+div, url, opt, function(error, result) {
+          // result.view is the Vega View, url is the original Vega-Lite specification
+          vegaTooltip.vegaLite(result.view, url);
+        });
+      }
+
+      parse("/data/waterfall", "waterfall")
+      parse("/data/line", "line");
+      parse("/data/multiline", "multiline");
+      parse("/data/stocks", "stocks");
+   
+    </script>
+
+  </body>
+</html>
