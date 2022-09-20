@@ -17,7 +17,6 @@ It is highly recommended to work with an python environment [Python Env](https:/
 
 Visit http://localhost:5000 in your browser, that's it!
 
-<!--
 ## Deployment with Docker
 
 You can deploy and run the application locally using [Docker](https://www.docker.com/). You can run `make docker-run` or:
@@ -26,5 +25,4 @@ You can deploy and run the application locally using [Docker](https://www.docker
 1. `docker run --init --rm -d --publish 127.0.0.1:5000:5000 flask_app`
 
 Once running, visit `localhost:5000` on your web browser. 
--->
 
