@@ -87,23 +87,65 @@ def data_multiline():
 
 @app.route("/data/stocks")
 def stocks():
-    pre_data = read_data(FILE_PRECIPI)
-    meltdata = pre_data.melt(id_vars=['countries']) 
+    water_data = read_data(FILE_WATER)
+    meltdata = water_data.melt(id_vars=['country'])
 
-    chart = alt.Chart(meltdata).mark_point(filled=True).encode(
-        alt.X('variable:N', title="Year"),
-        alt.Y('value:Q', title="Value in mm"),
+    pre_data = read_data(FILE_PRECIPI)
+    premeltdata = pre_data.melt(id_vars=['countries'])
+
+    input_dropdown = alt.binding_select(
+        options=['1992','1997','2002','2007',
+                 '2012','2017','2018'],
+        name='Year'
+    )
+    
+    selection_s = alt.selection_single(
+        fields=['variable'],
+        bind=input_dropdown,
+        init={'variable':'1992'}
+    )
+    
+    selection_a = alt.selection_single(
+        fields=['variable'],
+        bind=input_dropdown,
+        init={'variable':'1992'}
+    )
+
+    area = alt.Chart(meltdata).mark_rule(color='red', opacity=0.4).encode(
+    alt.X('country:N', title="Country", sort=None),
+    alt.Y('value:Q', title="Total Water (billion cubic meters)"),
+    strokeWidth=alt.value(10),
+    tooltip = [alt.Tooltip('value',title="Total Water"),
+         alt.Tooltip('country',title="Country"),
+         alt.Tooltip('variable',title="Year")]
+    ).add_selection(
+        selection_a
+    ).transform_filter(
+        selection_a
+    ).properties(
+        width=600,
+        height=600,
+        title="Renewable internal freshwater resources vs Europe's average precipitation in depth"
+    )
+    
+    scatter = alt.Chart(premeltdata).mark_point(color='orange', opacity=0.6, filled=True).encode(
+        alt.X('countries:N'),
+        alt.Y('value:Q'),
         alt.Size('value'),
-        alt.Color('countries:N',scale=alt.Scale(scheme='category20')),
-        alt.OpacityValue(0.7),
+        alt.OpacityValue(0.9),
         tooltip = [alt.Tooltip('value',title="% precipit"),
              alt.Tooltip('countries',title="Country"),
              alt.Tooltip('variable',title="Year")]
+    ).add_selection(
+        selection_s
+    ).transform_filter(
+        selection_s
     ).properties(
-     width=500,
-     height=500,
-     title="Europe's average precipitation in depth (mm per year)"
+        width=600,
+        height=600,
     ).interactive()
+    
+    chart = area + scatter 
 
     return chart.to_json()
 
